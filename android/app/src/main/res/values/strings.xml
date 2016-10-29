@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ivysaur</string>
+    <string name="fb_app_id">182097998846965</string>
+    <string name="fb_login_protocol_scheme">fb182097998846965</string>
 </resources>
