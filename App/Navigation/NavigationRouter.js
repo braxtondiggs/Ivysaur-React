@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { Scene, Router } from 'react-native-router-flux'
+import { Scene, Router, Actions as NavigationActions } from 'react-native-router-flux'
+import {AsyncStorage} from 'react-native'
 import Styles from './Styles/NavigationContainerStyle'
 import NavigationDrawer from './NavigationDrawer'
 import NavItems from './NavItems'
+import SplashScreen from 'react-native-splash-screen'
 
 // screens identified by the router
 import IntroScreen from '../Containers/IntroScreen'
+import HomeScreen from '../Containers/HomeScreen'
 import PresentationScreen from '../Containers/PresentationScreen'
 import AllComponentsScreen from '../Containers/AllComponentsScreen'
 import UsageExamplesScreen from '../Containers/UsageExamplesScreen'
@@ -23,12 +26,24 @@ import DeviceInfoScreen from '../Containers/DeviceInfoScreen'
 ***************************/
 
 class NavigationRouter extends Component {
+  componentWillMount () {
+    SplashScreen.show()
+    AsyncStorage.getItem('@User', (err, result) => {
+      if (result && !err) {
+        NavigationActions.homeScreen({initial: true, type: 'reset'})
+      } else {
+        NavigationActions.introScreen({initial: true, type: 'reset'})
+      }
+      SplashScreen.hide()
+    })
+  }
   render () {
     return (
       <Router>
         <Scene key='drawer' component={NavigationDrawer} open={false}>
           <Scene key='drawerChildrenWrapper' navigationBarStyle={Styles.navBar} titleStyle={Styles.title} leftButtonIconStyle={Styles.leftButton} rightButtonTextStyle={Styles.rightButton}>
-            <Scene initial key='IntroScreen' component={IntroScreen} title='Intro' hideNavBar />
+            <Scene key='introScreen' component={IntroScreen} title='Intro' hideNavBar />
+            <Scene initial key='homeScreen' component={HomeScreen} title='Impromptu' renderLeftButton={NavItems.hamburgerButton} />
             <Scene key='presentationScreen' component={PresentationScreen} title='Ignite' renderLeftButton={NavItems.hamburgerButton} />
             <Scene key='componentExamples' component={AllComponentsScreen} title='Components' />
             <Scene key='usageExamples' component={UsageExamplesScreen} title='Usage' rightTitle='Example' onRight={() => window.alert('Example Pressed')} />

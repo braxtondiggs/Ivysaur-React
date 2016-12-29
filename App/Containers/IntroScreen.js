@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Image, Dimensions } from 'react-native'
+import { Text, View, Image, Dimensions, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -7,16 +7,39 @@ import Images from '../Themes/Images'
 // external libs
 import Swiper from 'react-native-swiper'
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login'
+import { Actions as NavigationActions } from 'react-native-router-flux'
+import firebase from 'firebase/app'
 
 // Styles
 import styles from './Styles/IntroScreenStyle'
-
 class IntroScreen extends React.Component {
   componentWillMount () {
     let windowHeight = Dimensions.get('window').height
     this.setState({windowHeight: windowHeight - 100})
   }
+
+  componentWillUnmount () {
+    if (this.unsubscribe) {
+      this.unsubscribe()
+    }
+  }
+  login (data) {
+    let credential = firebase.auth.FacebookAuthProvider.credential(data.credentials.token)
+    var _this = this
+    firebase.auth().signInWithCredential(credential).then(function (result) {
+      let user = result.providerData[0]
+      firebase.database().ref('Users/' + user.uid).update(user)
+      _this.setState({ user: user })
+      AsyncStorage.setItem('@User', JSON.stringify(user))
+    }).catch(function (error) {
+      console.log(error)
+    })
+  }
+  loginFound (data) {
+    NavigationActions.homeScreen({type: 'replace'})
+  }
   render () {
+    var _this = this
     return (
       <View style={{flex: 1}}>
         <Swiper style={styles.wrapper} loop={false} height={this.state.windowHeight}>
@@ -41,21 +64,19 @@ class IntroScreen extends React.Component {
         </Swiper>
         <View style={styles.terms}>
           <Text style={styles.termsText}>By continuing, you agree to our Terms of Service and Privacy Policy</Text>
-          <FBLogin
-            style={styles.facebook}
-            ref={(fbLogin) => { this.fbLogin = fbLogin }}
-            loginBehavior={FBLoginManager.LoginBehaviors.Native}
-            permissions={['email', 'user_friends']}
-            onLogin={function (e) { console.log(e) }}
-            onLoginFound={function (e) { console.log(e) }}
-            onLoginNotFound={function (e) { console.log(e) }}
-            onLogout={function (e) { console.log(e) }}
-            onCancel={function (e) { console.log(e) }}
-            onPermissionsMissing={function (e) { console.log(e) }}
-                      />
+          <View style={styles.facebook}>
+            <FBLogin
+              ref={(fbLogin) => { this.fbLogin = fbLogin }}
+              loginBehavior={FBLoginManager.LoginBehaviors.Native}
+              permissions={['email', 'user_friends', 'public_profile', 'user_birthday']}
+              onLogin={(data) => { _this.login(data) }}
+              onLoginFound={function (data) { _this.loginFound(data) }}
+              onLoginNotFound={function () { _this.setState({ user: null }) }}
+              onLogout={function () { _this.setState({ user: null }) }} />
+          </View>
         </View>
       </View>
-      )
+    )
   }
 }
 
