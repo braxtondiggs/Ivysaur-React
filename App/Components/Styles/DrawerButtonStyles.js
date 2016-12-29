@@ -1,8 +1,16 @@
-import { Metrics, Colors, Fonts } from '../../Themes'
-
+import {
+  Metrics,
+  Colors
+} from '../../Themes'
 export default {
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  icon: {
+    marginRight: 10
+  },
   text: {
-    ...Fonts.style.h5,
     color: Colors.snow,
     marginVertical: Metrics.baseMargin
   }

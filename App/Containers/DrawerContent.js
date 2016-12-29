@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { ScrollView, Image, BackAndroid } from 'react-native'
+import { ScrollView, BackAndroid } from 'react-native'
 import styles from './Styles/DrawerContentStyle'
-import { Images } from '../Themes'
 import DrawerButton from '../Components/DrawerButton'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 
@@ -21,40 +20,39 @@ class DrawerContent extends Component {
     this.context.drawer.toggle()
   }
 
-  handlePressComponents = () => {
+  handlePressHome= () => {
     this.toggleDrawer()
-    NavigationActions.componentExamples()
+    NavigationActions.homeScreen()
   }
 
-  handlePressUsage = () => {
+  handlePressMessages = () => {
     this.toggleDrawer()
-    NavigationActions.usageExamples()
+    // TODO Messages
   }
 
-  handlePressAPI = () => {
+  handlePressPreference = () => {
     this.toggleDrawer()
-    NavigationActions.apiTesting()
+    // TODO Preference
   }
 
-  handlePressTheme = () => {
+  handlePressSettings = () => {
     this.toggleDrawer()
-    NavigationActions.theme()
+    // TODO Settings
   }
 
-  handlePressDevice = () => {
+  handlePressShare = () => {
     this.toggleDrawer()
-    NavigationActions.deviceInfo()
+    // TODO Share
   }
 
   render () {
     return (
       <ScrollView style={styles.container}>
-        <Image source={Images.logo} style={styles.logo} />
-        <DrawerButton text='Component Examples' onPress={this.handlePressComponents} />
-        <DrawerButton text='Usage Examples' onPress={this.handlePressUsage} />
-        <DrawerButton text='API Testing' onPress={this.handlePressAPI} />
-        <DrawerButton text='Themes' onPress={this.handlePressTheme} />
-        <DrawerButton text='Device Info' onPress={this.handlePressDevice} />
+        <DrawerButton text='Home' icon='map-marker' onPress={this.handlePressHome} />
+        <DrawerButton text='Messages' icon='commenting-o' onPress={this.handlePressMessages} />
+        <DrawerButton text='Preference' icon='gear' onPress={this.handlePressPreference} />
+        <DrawerButton text='Settings' icon='sliders' onPress={this.handlePressSettings} />
+        <DrawerButton text='Share Impromptu' icon='share-alt' onPress={this.handlePressShare} />
       </ScrollView>
     )
   }
