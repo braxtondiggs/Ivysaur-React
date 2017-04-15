@@ -1,19 +1,11 @@
+import '../Config'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import '../I18n/I18n' // keep before root container
 import RootContainer from './RootContainer'
 import createStore from '../Redux'
-import applyConfigSettings from '../Config'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/database'
 
-// Apply config overrides
-applyConfigSettings()
 // create our store
 const store = createStore()
-const env = require('../Config/environment')
-firebase.initializeApp(env.firestack)
 
 /**
  * Provides an entry point into our application.  Both index.ios.js and index.android.js

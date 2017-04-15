@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import styles from './Styles/NavItemsStyle'
+import styles from './Styles/NavItemsStyles'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Colors, Metrics } from '../Themes'
@@ -17,9 +17,9 @@ export default {
     return (
       <TouchableOpacity onPress={NavigationActions.pop}>
         <Icon name='angle-left'
-          size={Metrics.icons.medium}
+          size={Metrics.icons.large}
           color={Colors.snow}
-          style={styles.navButtonLeft}
+          style={styles.backButton}
         />
       </TouchableOpacity>
     )
@@ -32,6 +32,18 @@ export default {
           size={Metrics.icons.medium}
           color={Colors.snow}
           style={styles.navButtonLeft}
+        />
+      </TouchableOpacity>
+    )
+  },
+
+  searchButton (callback) {
+    return (
+      <TouchableOpacity onPress={callback}>
+        <Icon name='search'
+          size={Metrics.icons.small}
+          color={Colors.snow}
+          style={styles.searchButton}
         />
       </TouchableOpacity>
     )

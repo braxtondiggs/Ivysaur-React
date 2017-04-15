@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import AlertMessage from '../Components/AlertMessage'
 
 // Styles
-import styles from './Styles/ListviewExampleStyle'
+import styles from './Styles/ListviewExampleStyles'
 
 class ListviewSectionsExample extends React.Component {
 
@@ -66,13 +66,13 @@ class ListviewSectionsExample extends React.Component {
 
   /* ***********************************************************
   * STEP 3
-  * `_renderRow` function -How each cell/row should be rendered
+  * `renderRow` function -How each cell/row should be rendered
   * It's our best practice to place a single component here:
   *
   * e.g.
     return <MyCustomCell title={rowData.title} description={rowData.description} />
   *************************************************************/
-  _renderRow (rowData, sectionID) {
+  renderRow (rowData, sectionID) {
     // You can condition on sectionID (key as string), for different cells
     // in different sections
     return (
@@ -103,11 +103,11 @@ class ListviewSectionsExample extends React.Component {
 
   // Used for friendly AlertMessage
   // returns true if the dataSource is empty
-  _noRowData () {
+  noRowData () {
     return this.state.dataSource.getRowCount() === 0
   }
 
-  _renderHeader (data, sectionID) {
+  renderHeader (data, sectionID) {
     switch (sectionID) {
       case 'first':
         return <Text style={styles.boldLabel}>First Section</Text>
@@ -119,13 +119,12 @@ class ListviewSectionsExample extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <AlertMessage title='Nothing to See Here, Move Along' show={this._noRowData()} />
+        <AlertMessage title='Nothing to See Here, Move Along' show={this.noRowData()} />
         <ListView
-          renderSectionHeader={this._renderHeader}
+          renderSectionHeader={this.renderHeader}
           contentContainerStyle={styles.listContent}
           dataSource={this.state.dataSource}
-          onLayout={this.onLayout}
-          renderRow={this._renderRow}
+          renderRow={this.renderRow}
           enableEmptySections
         />
       </View>

@@ -6,9 +6,10 @@ import StartupActions from '../Redux/StartupRedux'
 import ReduxPersist from '../Config/ReduxPersist'
 
 // Styles
-import styles from './Styles/RootContainerStyle'
+import styles from './Styles/RootContainerStyles'
 
 class RootContainer extends Component {
+
   componentDidMount () {
     // if redux persist is not active fire startup action
     if (!ReduxPersist.active) {
@@ -26,8 +27,9 @@ class RootContainer extends Component {
   }
 }
 
-const mapStateToDispatch = dispatch => ({
+// wraps dispatch to create nicer functions to call within our component
+const mapDispatchToProps = (dispatch) => ({
   startup: () => dispatch(StartupActions.startup())
 })
 
-export default connect(null, mapStateToDispatch)(RootContainer)
+export default connect(null, mapDispatchToProps)(RootContainer)

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react'
+import React, { PropTypes } from 'react'
 import {
   View,
   ScrollView,
@@ -10,15 +10,22 @@ import {
   LayoutAnimation
 } from 'react-native'
 import { connect } from 'react-redux'
-import Styles from './Styles/LoginScreenStyle'
+import Styles from './Styles/LoginScreenStyles'
 import {Images, Metrics} from '../Themes'
 import LoginActions from '../Redux/LoginRedux'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 
-// I18n
-import I18n from 'react-native-i18n'
-
 class LoginScreen extends React.Component {
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    fetching: PropTypes.bool,
+    attemptLogin: PropTypes.func
+  }
+
+  isAttempting = false
+  keyboardDidShowListener = {}
+  keyboardDidHideListener = {}
 
   constructor (props) {
     super(props)
@@ -91,11 +98,11 @@ class LoginScreen extends React.Component {
     const editable = !fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
     return (
-      <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps>
+      <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
         <Image source={Images.logo} style={[Styles.topLogo, this.state.topLogo]} />
         <View style={Styles.form}>
           <View style={Styles.row}>
-            <Text style={Styles.rowLabel}>{I18n.t('username')}</Text>
+            <Text style={Styles.rowLabel}>Username</Text>
             <TextInput
               ref='username'
               style={textInputStyle}
@@ -103,14 +110,16 @@ class LoginScreen extends React.Component {
               editable={editable}
               keyboardType='default'
               returnKeyType='next'
+              autoCapitalize='none'
+              autoCorrect={false}
               onChangeText={this.handleChangeUsername}
               underlineColorAndroid='transparent'
               onSubmitEditing={() => this.refs.password.focus()}
-              placeholder={I18n.t('username')} />
+              placeholder='Username' />
           </View>
 
           <View style={Styles.row}>
-            <Text style={Styles.rowLabel}>{I18n.t('password')}</Text>
+            <Text style={Styles.rowLabel}>Password</Text>
             <TextInput
               ref='password'
               style={textInputStyle}
@@ -118,22 +127,24 @@ class LoginScreen extends React.Component {
               editable={editable}
               keyboardType='default'
               returnKeyType='go'
+              autoCapitalize='none'
+              autoCorrect={false}
               secureTextEntry
               onChangeText={this.handleChangePassword}
               underlineColorAndroid='transparent'
               onSubmitEditing={this.handlePressLogin}
-              placeholder={I18n.t('password')} />
+              placeholder='Password' />
           </View>
 
           <View style={[Styles.loginRow]}>
             <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
               <View style={Styles.loginButton}>
-                <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+                <Text style={Styles.loginText}>Sign In</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={Styles.loginButtonWrapper} onPress={NavigationActions.pop}>
               <View style={Styles.loginButton}>
-                <Text style={Styles.loginText}>{I18n.t('cancel')}</Text>
+                <Text style={Styles.loginText}>Cancel</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -145,13 +156,7 @@ class LoginScreen extends React.Component {
 
 }
 
-LoginScreen.propTypes = {
-  dispatch: PropTypes.func,
-  fetching: PropTypes.bool,
-  attemptLogin: PropTypes.func
-}
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     fetching: state.login.fetching
   }

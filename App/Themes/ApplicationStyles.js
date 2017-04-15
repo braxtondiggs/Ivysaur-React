@@ -9,7 +9,6 @@ const ApplicationStyles = {
   screen: {
     mainContainer: {
       flex: 1,
-      marginTop: Metrics.navBarHeight,
       backgroundColor: Colors.transparent
     },
     backgroundImage: {
@@ -21,35 +20,41 @@ const ApplicationStyles = {
     },
     container: {
       flex: 1,
-      paddingTop: Metrics.baseMargin
+      paddingTop: Metrics.baseMargin,
+      backgroundColor: Colors.transparent
     },
     section: {
       margin: Metrics.section,
-      padding: Metrics.baseMargin,
-      borderTopColor: Colors.frost,
-      borderTopWidth: 0.5,
-      borderBottomColor: Colors.frost,
-      borderBottomWidth: 1
+      padding: Metrics.baseMargin
     },
     sectionText: {
+      ...Fonts.normal,
+      paddingVertical: Metrics.doubleBaseMargin,
       color: Colors.snow,
       marginVertical: Metrics.smallMargin,
-      textAlign: 'center',
-      fontWeight: 'bold'
+      textAlign: 'center'
     },
     subtitle: {
       color: Colors.snow,
       padding: Metrics.smallMargin,
       marginBottom: Metrics.smallMargin,
       marginHorizontal: Metrics.smallMargin
+    },
+    titleText: {
+      ...Fonts.style.h2,
+      fontSize: 14,
+      color: Colors.text
     }
   },
   darkLabelContainer: {
-    backgroundColor: Colors.cloud,
-    padding: Metrics.smallMargin
+    padding: Metrics.smallMargin,
+    paddingBottom: Metrics.doubleBaseMargin,
+    borderBottomColor: Colors.border,
+    borderBottomWidth: 1,
+    marginBottom: Metrics.baseMargin
   },
   darkLabel: {
-    fontFamily: Fonts.bold,
+    fontFamily: Fonts.type.bold,
     color: Colors.snow
   },
   groupContainer: {
