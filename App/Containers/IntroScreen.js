@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import Images from '../Themes/Images'
 // external libs
 import Swiper from 'react-native-swiper'
+import Spinner from 'react-native-loading-spinner-overlay'
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import firebase from 'firebase/app'
@@ -13,6 +14,12 @@ import firebase from 'firebase/app'
 // Styles
 import styles from './Styles/IntroScreenStyle'
 class IntroScreen extends React.Component {
+  constructor (props) {
+    super()
+    this.state = {
+      visible: false
+    }
+  }
   componentWillMount () {
     let windowHeight = Dimensions.get('window').height
     this.setState({windowHeight: windowHeight - 100})
@@ -26,13 +33,15 @@ class IntroScreen extends React.Component {
   login (data) {
     let credential = firebase.auth.FacebookAuthProvider.credential(data.credentials.token)
     var _this = this
+    this.setState({visible: true})
     firebase.auth().signInWithCredential(credential).then(function (result) {
       let user = result.providerData[0]
       firebase.database().ref('Users/' + user.uid).update(user)
-      _this.setState({ user: user })
+      _this.setState({ user: user, visible: false })
       AsyncStorage.setItem('@User', JSON.stringify(user))
     }).catch(function (error) {
       console.log(error)
+      // TODO Implement Error Catch
     })
   }
   loginFound (data) {
@@ -42,6 +51,7 @@ class IntroScreen extends React.Component {
     var _this = this
     return (
       <View style={{flex: 1}}>
+        <Spinner visible={this.state.visible} />
         <Swiper style={styles.wrapper} loop={false} height={this.state.windowHeight}>
           <View style={styles.slide}>
             <View>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ScrollView, BackAndroid } from 'react-native'
 import styles from './Styles/DrawerContentStyle'
 import DrawerButton from '../Components/DrawerButton'
+import Share, {ShareSheet, Button} from 'react-native-share'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 
 class DrawerContent extends Component {
@@ -37,12 +38,17 @@ class DrawerContent extends Component {
 
   handlePressSettings = () => {
     this.toggleDrawer()
-    // TODO Settings
+    NavigationActions.settingsScreen()
   }
 
   handlePressShare = () => {
     this.toggleDrawer()
-    // TODO Share
+    Share.open({
+      title: 'Impromptu App',
+      message: 'Check out Impromptu... it shows you who like you nearby!',
+      url: 'http://impromptu.app/',
+      subject: 'Impromptu App'
+    })
   }
 
   render () {

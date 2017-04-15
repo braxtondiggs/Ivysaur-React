@@ -4,6 +4,9 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
+import cl.json.RNSharePackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -31,6 +34,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactMaterialKitPackage(),
+            new ReactNativePermissionsPackage(),
+            new RNSharePackage(),
             new SplashScreenReactPackage(),
             new VectorIconsPackage(),
             new MapsPackage(),
