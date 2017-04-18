@@ -3,9 +3,14 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import RootContainer from './RootContainer'
 import createStore from '../Redux'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
 
 // create our store
 const store = createStore()
+const env = require('../Config/environment')
+firebase.initializeApp(env.firestack)
 
 /**
  * Provides an entry point into our application.  Both index.ios.js and index.android.js
